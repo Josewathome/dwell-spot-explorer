@@ -11,7 +11,7 @@ COPY frontend/ .
 RUN npm install && npm run build
 
 # Stage 2: Set up the Python/Django backend
-FROM python:3.10-slim
+FROM python:3.10-slim as final
 
 # Set the working directory inside the container for the backend
 WORKDIR /app/backend
