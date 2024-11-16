@@ -2,25 +2,18 @@
     "version": 2,
     "builds": [
       {
-        "src": "backend/wsgi.py",
-        "use": "@vercel/python"
-      },
-      {
-        "src": "frontend/package.json",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "frontend/dist"
-        }
+        "src": "Dockerfile",
+        "use": "@vercel/docker"
       }
     ],
     "routes": [
       {
         "src": "/api/(.*)", 
-        "dest": "backend/src/wsgi.py"
+        "dest": "/$1"
       },
       {
         "src": "/(.*)", 
-        "dest": "frontend/dist/index.html"
+        "dest": "/static/$1"
       }
     ]
   }
