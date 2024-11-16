@@ -1,69 +1,80 @@
-# Welcome to your Lovable project
+# Real Estate Platform
 
-## Project info
+A modern real estate platform built with React and Django.
 
-**URL**: https://lovable.dev/projects/e869f131-3e97-4355-ac41-e87bdbd6576c
+## Frontend Setup
 
-## How can I edit this code?
+1. Install dependencies:
+```bash
+npm install
+```
 
-There are several ways of editing your application.
+2. Create a `.env` file in the root directory:
+```
+REACT_APP_API_URL=http://localhost:8000/api
+```
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/e869f131-3e97-4355-ac41-e87bdbd6576c) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Backend Setup
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. Create a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-**Use GitHub Codespaces**
+2. Install dependencies:
+```bash
+pip install django djangorestframework django-cors-headers
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+3. Navigate to the backend directory:
+```bash
+cd backend
+```
 
-## What technologies are used for this project?
+4. Run migrations:
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
 
-This project is built with .
+5. Create a superuser:
+```bash
+python manage.py createsuperuser
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+6. Start the development server:
+```bash
+python manage.py runserver
+```
 
-## How can I deploy this project?
+## Deployment
 
-Simply open [Lovable](https://lovable.dev/projects/e869f131-3e97-4355-ac41-e87bdbd6576c) and click on Share -> Publish.
+1. Frontend:
+   - Build the React app: `npm run build`
+   - Deploy the `dist` directory to your hosting service
 
-## I want to use a custom domain - is that possible?
+2. Backend:
+   - Set up a production database (e.g., PostgreSQL)
+   - Configure environment variables
+   - Deploy using gunicorn and nginx
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+## API Documentation
+
+The API endpoints are available at:
+
+- `POST /api/users/signup/` - Create a new user account
+- `POST /api/users/login/` - Login and get authentication token
+- `GET /api/buildings/` - List all properties
+- `GET /api/buildings/:id/` - Get property details
+- `GET /api/buildings/:id/rooms/` - List rooms in a building
+
+For protected endpoints, include the authentication token in the request header:
+```
+Authorization: Bearer <your-token>
+```

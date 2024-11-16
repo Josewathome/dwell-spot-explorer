@@ -1,22 +1,43 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
+import { login, signup } from '@/lib/api';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Coming Soon",
-      description: "Authentication will be implemented in the next version.",
-    });
+    try {
+      if (isLogin) {
+        const data = await login({ email, password });
+        localStorage.setItem('token', data.token);
+      } else {
+        const data = await signup({ username, email, password });
+        toast({
+          title: "Account created",
+          description: "Please log in with your new account",
+        });
+        setIsLogin(true);
+        return;
+      }
+      navigate('/');
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Authentication failed. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -30,6 +51,17 @@ const Auth = () => {
           </h1>
           
           <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+            )}
+            
             <div>
               <Input
                 type="email"
