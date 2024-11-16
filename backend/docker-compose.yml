@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Frontend (Vite build)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend-build  # Uses the frontend build stage from the Dockerfile
+    volumes:
+      - ./frontend:/app/frontend
+    working_dir: /app/frontend
+    ports:
+      - "3000:3000"  # Exposes the Vite dev server (if needed for development)
+    command: npm run build  # Starts the Vite development server (for dev purposes)
+
+  # Backend (Django)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: final  # Uses the final stage in the Dockerfile (the one that runs Django)
+    volumes:
+      - ./backend:/app/backend
+    working_dir: /app/backend
+    ports:
+      - "8000:8000"  # Exposes Django app
+    environment:
+      - DJANGO_SETTINGS_MODULE=src.settings
+    depends_on:
+      - frontend  # Ensure frontend is built before starting backend
