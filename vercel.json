@@ -6,8 +6,7 @@
       "use": "@vercel/static-build"
     },
     {
-      "src": "backend/Dockerfile",
-      "use": "@vercel/docker"
+      "src": "backend/Dockerfile"
     }
   ],
   "routes": [
